@@ -5,11 +5,11 @@ export interface IAudioParams {
     src: URL;
   }
   
-export class AudioQueue {
+class AudioQueueClass {
       private engine;
       private queue = [];
       private current: IAudioParams;
-      public autoplay: Boolean;
+      public autoplay;
       
       constructor(init: IAudioParams[] = [], config: { audioObject?: AudioContext, autoplay?: boolean } = {}) {
         this.queue = [...init];
@@ -70,3 +70,33 @@ export class AudioQueue {
         return this.queue.unshift(audio);
       }
   }
+
+export class AudioQueue {
+  private QueueClass;
+  private AudioObject;
+  
+  constructor(init: IAudioParams[] = [], config: { audioObject?: AudioContext, autoplay?: boolean } = {}) {
+    this.QueueClass = new AudioQueueClass(...arguments);
+    this.AudioObject = this.QueueClass.audio;
+
+    return new Proxy(this.QueueClass, {
+      get: (target, property) => {
+        if(property in target) {
+          return target[property];
+        }
+        if(property in this.AudioObject) {
+          return this.AudioObject[property];
+        }
+      },
+      set: (target, property, value) => {
+        if(property in this.AudioObject){
+          this.AudioObject[property] = value;
+        }
+        if(property in target) {
+           target[property] = value;
+        }
+        return true;
+      }
+    });
+  }
+}
