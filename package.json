@@ -1,0 +1,33 @@
+{
+  "name": "@phonograph/audioengine",
+  "version": "1.0.0",
+  "description": "audioengine for phonographplayer",
+  "source": "AudioEngine.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "umd:main": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "microbundle build",
+    "test": "jest",
+    "prepublish": "npm start && npm test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "microbundle": "^0.11.0"
+  },
+  "jest": {
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "xml",
+      "node"
+    ]
+  }
+}
