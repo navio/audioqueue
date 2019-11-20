@@ -5,7 +5,7 @@ export interface IAudioParams {
     src: URL;
   }
   
-export class AudioEngine {
+export class AudioQueue {
       private engine;
       private queue = [];
       private current: IAudioParams;
@@ -30,11 +30,11 @@ export class AudioEngine {
         return this.engine;
       }
 
-      get selected(){
+      get selected(): IAudioParams{
         return this.current;
       }
   
-      public play() {
+      public play(): Boolean {
         if (this.current) {
           this.engine.play();
           return true;
@@ -43,7 +43,7 @@ export class AudioEngine {
         }
       }
   
-      public next() {
+      public next(): Boolean {
         if(!this.queue.length) {
             return false;
         }
@@ -57,7 +57,7 @@ export class AudioEngine {
         return true;
       }
   
-      public pause() {
+      public pause(): Boolean {
         this.engine.pause();
         return true;
       }

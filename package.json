@@ -1,8 +1,8 @@
 {
-  "name": "@phonograph/audioengine",
+  "name": "audioqueue",
   "version": "1.0.0",
-  "description": "audioengine for phonographplayer",
-  "source": "AudioEngine.ts",
+  "description": "AudioQueue for phonographplayer",
+  "source": "AudioQueue.ts",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
   "umd:main": "dist/index.umd.js",
