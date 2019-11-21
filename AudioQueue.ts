@@ -13,7 +13,7 @@ class AudioQueueClass {
 
   constructor(
     init: IAudioParams[] = [],
-    config: { audioObject?: AudioContext; autoplay?: boolean } = {}
+    config: { audioObject?: HTMLElement; autoplay?: boolean } = {}
   ) {
     this.queue = [...init];
     this.engine = config.audioObject || new Audio();
@@ -30,39 +30,32 @@ class AudioQueueClass {
     return this.queue;
   }
 
-  get audio() {
-    return this.engine;
-  }
-
   get selected(): IAudioParams {
     return this.current;
   }
 
-  public play(): Boolean {
+  public play() {
     if (this.current) {
-      this.engine.play();
-      return true;
+      return this.engine.play();
     } else {
       return this.next();
     }
   }
 
-  public next(): Boolean {
+  public next() {
     if (!this.queue.length) {
-      return false;
+      const event = new Event("EmptyQueue");
+      this.engine.dispatchEvent(event);
+      this.current = null;
+      this.engine.pause();
+      this.engine.src = this.current.src;
+      return;
     }
     this.current = this.queue.shift();
     if (this.current) {
       this.engine.src = this.current.src;
     }
     this.engine.play();
-
-    return true;
-  }
-
-  public pause(): Boolean {
-    this.engine.pause();
-    return true;
   }
 
   public addLast(audio: IAudioParams) {
@@ -72,18 +65,23 @@ class AudioQueueClass {
   public addNext(audio: IAudioParams) {
     return this.queue.unshift(audio);
   }
+
+  public restart() {
+    return this.engine.current;
+  }
 }
 
-export class AudioQueue {
+export default class AudioQueue {
   private QueueClass;
   private AudioObject;
 
   constructor(
     init: IAudioParams[] = [],
-    config: { audioObject?: AudioContext; autoplay?: boolean } = {}
+    config: { audioObject?: HTMLElement; autoplay?: boolean } = {}
   ) {
-    this.QueueClass = new AudioQueueClass(init, config);
-    this.AudioObject = this.QueueClass.audio;
+    const { audioObject = new Audio() } = config;
+    this.QueueClass = new AudioQueueClass(init, { audioObject, ...config });
+    this.AudioObject = audioObject;
 
     return new Proxy(this.QueueClass, {
       get: (target, property) => {

@@ -1,6 +1,6 @@
 'use strict';
 
-const AudioEngine = require("./dist/index.js").AudioQueue;
+const AudioEngine = require("./dist/index.js");
 
 const list = [{ title: "Audio", src: new URL("https://url.com")},{ title: "Audio1", src: new URL("https://url1.com")}]
 
