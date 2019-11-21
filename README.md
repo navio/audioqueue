@@ -17,7 +17,7 @@ player.currentTrack() // returns all the information for the curren track.
 player.list // returns the entire queue currently loaded.
 player.native // returns the native element reproducing the track.
 ```
-> IF the queue is empty when attempting to play anothe track, the object will emmit an EmptyQueue event.
+> If the queue is empty when attempting to play anothe track, the object will emmit an EmptyQueue event.
 
 Because this implementation is a wrapper around the HTMLMediaElement, you can use any property or feature of the MediaElement provided. For instace, by default the class creates Audio object if nothing else is provided.
 
