@@ -1,7 +1,7 @@
 {
   "name": "audioqueue",
-  "version": "1.0.2",
-  "description": "AudioQueue for phonographplayer",
+  "version": "1.0.3",
+  "description": "An audio objectcapable of handle a queue of tracks. It wraps the queue functionality around media element, to maintain all the features of the element and add queue features",
   "source": "AudioQueue.ts",
   "main": "dist/index.js",
   "module": "dist/index.m.js",
