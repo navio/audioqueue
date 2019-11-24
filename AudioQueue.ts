@@ -103,7 +103,10 @@ export default class AudioQueue {
         }
         if (property in this.AudioObject) {
           // Audio Object requires context variables that are lost in the Proxy.
-          return this.AudioObject[property].bind(this.AudioObject);
+          const prop = this.AudioObject[property];
+          return ( prop  === 'function') ?
+            prop.bind(this.AudioObject):
+            prop;
         }
       },
       set: (target, property, value) => {
