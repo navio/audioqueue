@@ -9,6 +9,7 @@ class AudioQueueClass {
   private queue = [];
   private current: IAudioParams;
   public autoplay;
+  public SETTERS = ["src","srcObject"];
 
   constructor(
     init: IAudioParams[] = [],
@@ -31,6 +32,22 @@ class AudioQueueClass {
 
   get selected(): IAudioParams {
     return this.current;
+  }
+
+  set src(value:String){
+    if(this.current){
+      this.current.currentTime = this.engine.currentTime;
+      this.addNext(this.current);
+    }
+    this.engine.src = value; 
+  }
+
+  set srcObject(value:String){
+    if(this.current){
+      this.current.currentTime = this.engine.currentTime;
+      this.addNext(this.current);
+    }
+    this.engine.srcObject = value; 
   }
 
   public play() {
@@ -56,7 +73,7 @@ class AudioQueueClass {
     this.current = this.queue.shift();
 
     if (this.current) {
-      const { src, srcObject } = this.current;
+      const { src, srcObject, currentTime = 0 } = this.current;
 
       if(!src && !srcObject) {
         const event = new Event("NoSource");
@@ -66,6 +83,7 @@ class AudioQueueClass {
 
       if (src) this.engine.src = src;
       if (srcObject) this.engine.srcObject = srcObject
+      this.engine.currentTime = currentTime;
       this.engine.play();
 
     }
@@ -110,6 +128,9 @@ export default class AudioQueue {
         }
       },
       set: (target, property, value) => {
+        if(target.SETTERS.includes(property)){
+          return target[property] = value;
+        }
         if (property in this.AudioObject) {
           this.AudioObject[property] = value;
         }
