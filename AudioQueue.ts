@@ -34,19 +34,21 @@ class AudioQueueClass {
     return this.current;
   }
 
-  set src(value:String){
-    if(this.current){
+  set src(value: String){
+    if (this.current){
       this.current.currentTime = this.engine.currentTime;
       this.addNext(this.current);
     }
+    this.current = { src: value }
     this.engine.src = value; 
   }
 
-  set srcObject(value:String){
-    if(this.current){
+  set srcObject( value: MediaStream | MediaSource | Blob ){
+    if (this.current){
       this.current.currentTime = this.engine.currentTime;
       this.addNext(this.current);
     }
+    this.current = { srcObject: value }
     this.engine.srcObject = value; 
   }
 
@@ -87,6 +89,7 @@ class AudioQueueClass {
       this.engine.play();
 
     }
+
   }
 
   public addLast(audio: IAudioParams) {
